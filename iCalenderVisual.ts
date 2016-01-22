@@ -113,7 +113,14 @@ module powerbi.visuals {
             }
         };
 
-        private element: JQuery;
+        private drawMonthPath = false;
+        private drawLegend = false;
+        private drawLabels = true;
+        private width = 1016;
+        private height = 144;
+        private cellSize = 24; // cell size
+        private element = HTMLElement;
+        private rect: D3.Selection; // using d3
 
         // Convert a DataView into a view model
         public static converter(dataView: DataView): CalenderViewModel {
@@ -138,7 +145,7 @@ module powerbi.visuals {
             this.element = options.element;
         }
 
-        /* Called for data, size, formatting changes*/ 
+        /* Called for data, size, formatting changes*/ \
         public update(options: VisualUpdateOptions) {}
 
         /*About to remove your visual, do clean up here */ 
