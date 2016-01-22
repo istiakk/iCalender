@@ -122,6 +122,21 @@ module powerbi.visuals {
         private element = HTMLElement;
         private rect: D3.Selection; // using d3
 
+        // constructor for the cell size
+        constructor(cellSizeOpt?= number) {
+            if (cellSizeOpt) {
+                this.cellSize = cellSizeOpt; // assign the cellsize within the constructor
+            }
+        }
+
+
+        /* One time setup*/
+        public init(options: VisualInitOptions): {
+            this.element = options.element.get(0);
+        }
+
+
+
         // Convert a DataView into a view model
         public static converter(dataView: DataView): CalenderViewModel {
             return {
@@ -140,12 +155,9 @@ module powerbi.visuals {
             };
         }
 
-        /* One time setup*/
-        public init(options: VisualInitOptions): void {
-            this.element = options.element;
-        }
 
-        /* Called for data, size, formatting changes*/ \
+
+        /* Called for data, size, formatting changes*/ 
         public update(options: VisualUpdateOptions) {}
 
         /*About to remove your visual, do clean up here */ 
