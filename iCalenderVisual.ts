@@ -132,10 +132,42 @@ module powerbi.visuals {
 
         /* One time setup*/
         public init(options: VisualInitOptions): {
-            this.element = options.element.get(0);
+            this.element = options.element.get(0); // why it is the first element, need to know
+        }
+
+        /* Called for data, size, formatting changes*/ 
+        public update(options: VisualUpdateOptions) {
+        d3.select(this.element).selectAll("*").remove();
+        var viewModel = this.convert(options.dataViews[0]);
+
+        if (viewModel == null) return;
+
+        var maxDomain = Math.max.apply(Math,
+        viewModel.values.map((v) => {
+                return v.value;
+            })
+        );
+
+        this.draw(this.element, options.viewport.width, options.viewport.width, options.viewport.height, this.getYears(viewModel), maxDomain);
+        this.apply(viewModel, maxDomain);
         }
 
 
+        private draw(element, itemWidth: number, itemHeight: number, range: number[], maxDomain: number)
+        {
+    var format = d3.time.format("%Y-%m-%d");
+    var svg = d3.select(element).selectAll("svg")
+        .data(range)
+        .enter().append("svg")
+        .attr("width", itemWidth)
+        .attr("height", itemWidth / 7) // why not itemHeight
+        .attr("viewBox", "0 0 " + this.width + " " + this.height) // wht there is a " " between the height and widht
+        .append("g") // what is this "g"
+        .attr("transform", "translate(" + ((this.width - this.cellSize * 52) / 2) + "," + (this.height - this.cellSize * 7 - 1) + ")");
+
+
+
+}
 
         // Convert a DataView into a view model
         public static converter(dataView: DataView): CalenderViewModel {
@@ -151,14 +183,10 @@ module powerbi.visuals {
                     }
                 }
 
-
             };
         }
 
 
-
-        /* Called for data, size, formatting changes*/ 
-        public update(options: VisualUpdateOptions) {}
 
         /*About to remove your visual, do clean up here */ 
         public destroy() {}
