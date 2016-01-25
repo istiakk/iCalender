@@ -165,7 +165,40 @@ module powerbi.visuals {
         .append("g") // what is this "g"
         .attr("transform", "translate(" + ((this.width - this.cellSize * 52) / 2) + "," + (this.height - this.cellSize * 7 - 1) + ")");
 
+    if (this.drawLabels) {
+        var textGroup = svg.append("g").attr("fill", "#cccccc");
+        textGroup.append("text")
+            .attr("transform", "translate(" + this.cellSize * -1.5 + "," + this.cellSize * 3.5 + ")rotate(-90)")
+            .style("text-anchor", "middle")
+            .text(function (d) { return d; });
 
+        textGroup.append("text")
+            .style("text-anchor", "middle")
+            .text("M")
+            .attr("transform", "translate(" + this.cellSize * -0.75 + ")")
+            .attr("x", 0)
+            .attr("y", 2 * this.cellSize);
+
+        textGroup.append("text")
+            .style("text-anchor", "middle")
+            .text("W")
+            .attr("transform", "translate(" + this.cellSize * -0.75 + ")")
+            .attr("x", 0)
+            .attr("y", 2 * this.cellSize);
+        
+        textGroup.append("text")
+            .style("text-anchor", "middle")
+            .text("F")
+            .attr("transform", "translate(" + this.cellSize * -0.75 + ")")
+            .attr("x", 0)
+            .attr("y", 2 * this.cellSize);
+
+        textGroup.append("text")
+            .attr("transform", "translate(" + (this.width - (3 * this.cellSize)) + "," + this.cellSize * 3.5 + ")rotate(90)")
+            .style("text-anchor", "middle")
+            .text(function (d) { return d; });
+
+    }
 
 }
 
